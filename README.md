@@ -119,6 +119,53 @@ We welcome contributions! Here's how you can help:
 
 ---
 
+
+## 🤝 Contributing Issues
+
+Contributions, issues, and feature requests are welcome!
+
+If you'd like to contribute, please follow below: 
+
+🍴 Fork this repo -> Make your changes -> Test thoroughly -> 📩 Submit a pull request
+
+Please ensure your code follows best practices and includes helpful comments/documentation if needed.
+
+---
+
+### 📜 Code Commit Style
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+
+- `feat:` new feature
+- `fix:` bug fix
+- `docs:` documentation update
+- `refactor:` code refactor
+- `style:` UI or formatting
+- `chore:` maintenance tasks
+
+Example:
+```bash
+git commit -m "feat: added multi-pdf upload support"
+```
+
+---
+
+### 🧪 Testing
+
+Make sure your code:
+
+* Doesn’t break the main app
+* Works on local Streamlit
+* Follows a consistent UI/UX style
+
+---
+
+### 🙏 Thank You
+
+Every contribution makes this project better. Whether it's a typo fix or a new feature — you're appreciated!
+
+---
+
 ## 📄 License
 
 MIT © [Rakshath U Shetty](https://github.com/rakshath66)
@@ -136,15 +183,6 @@ It helps others discover it, and motivates me to build more free AI tools.
 Also, feel free to open issues, request features, or contribute.
 
 ---
-
-### 🧑‍💻 Built by [Rakshath U Shetty](https://github.com/rakshath66)
-
-* Open source forever
-* Designed for learning, research, and practical use
-* Reach out via issues or PRs — ideas welcome!
-
----
-
 
 ## 🛣️ Next Steps — Roadmap
 
@@ -197,58 +235,13 @@ Also, feel free to open issues, request features, or contribute.
 
 ---
 
-````markdown
----
+### 🧑‍💻 Built by [Rakshath U Shetty](https://github.com/rakshath66)
 
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome!
-
-If you'd like to contribute:
-
-1. 🍴 Fork this repo
-2. 🔧 Create a new branch (`git checkout -b feature-name`)
-3. 💻 Make your changes
-4. ✅ Test thoroughly
-5. 📩 Submit a pull request
-
-Please ensure your code follows best practices and includes helpful comments/documentation if needed.
+* Open source forever
+* Designed for learning, research, and practical use
+* Reach out via issues or PRs — ideas welcome!
 
 ---
-
-### 📜 Code Commit Style
-
-Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
-
-- `feat:` new feature
-- `fix:` bug fix
-- `docs:` documentation update
-- `refactor:` code refactor
-- `style:` UI or formatting
-- `chore:` maintenance tasks
-
-Example:
-```bash
-git commit -m "feat: added multi-pdf upload support"
-```
-
----
-
-### 🧪 Testing
-
-Make sure your code:
-
-* Doesn’t break the main app
-* Works on local Streamlit
-* Follows a consistent UI/UX style
-
----
-
-### 🙏 Thank You
-
-Every contribution makes this project better. Whether it's a typo fix or a new feature — you're appreciated!
-
-
 
 ```
 
