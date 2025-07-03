@@ -14,6 +14,10 @@ A clean, fast **PDF-based RAG chatbot** built with SentenceTransformers, FAISS v
 
 ![image](images/ui.png)
 
+- 📄 Links
+[HuggingFace Live](https://huggingface.co/spaces/rakshath6/pdf-chat-rag/)
+[Streamlit Live](https://chat-with-your-own-pdf.streamlit.app/)
+
 ---
 
 ## 🧠 Features
