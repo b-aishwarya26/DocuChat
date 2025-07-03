@@ -1,0 +1,2 @@
+cache/ # Optional: don’t push downloaded models
+.env
