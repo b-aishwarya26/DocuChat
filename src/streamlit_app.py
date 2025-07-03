@@ -13,18 +13,14 @@ from dotenv import load_dotenv
 import requests
 # ─────────────────────────────────────────────────────────────
 
-# ─────────────────────────────────────────────────────────────
-# Test internet
-# try:
-#     res = requests.get("https://openrouter.ai")
-#     st.success(f"🌐 Internet: {res.status_code} - {res.reason}")
-# except Exception as e:
-#     st.error(f"❌ No internet access or DNS error: {e}")
     
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 load_dotenv(dotenv_path=".env")
 api_key = os.getenv("OPENROUTER_API_KEY")
+
+# ✅ Set required env var
+os.environ["OPENAI_API_KEY"] = api_key
 
 # ✅ OpenRouter Client with headers for Hugging Face Spaces
 # client = OpenAI(
