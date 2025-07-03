@@ -1,43 +1,48 @@
 # ✅ Streamlit Web App: PDF RAG Chatbot
 
-# src/streamlit_app.py
-import os
 import streamlit as st
 from pypdf import PdfReader
+from io import BytesIO
 from sentence_transformers import SentenceTransformer
 import faiss
 import numpy as np
 from openai import OpenAI
+import os
 from dotenv import load_dotenv
 
-import requests
-# ─────────────────────────────────────────────────────────────
+os.environ["TOKENIZERS_PARALLELISM"] = "false" #disabling parallel processing
 
-    
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+# Load .env for OpenRouter API
 load_dotenv(dotenv_path=".env")
 api_key = os.getenv("OPENROUTER_API_KEY")
-
-# ✅ Set required env var
-os.environ["OPENAI_API_KEY"] = api_key
-
-# ✅ OpenRouter Client with headers for Hugging Face Spaces
-# client = OpenAI(
-#     base_url="https://openrouter.ai/api/v1",
-#     api_key=api_key,
-#     default_headers={
-#         "User-Agent": "hf-space-pdf-chat",
-#         "HTTP-Referer": "https://huggingface.co/spaces/rakshath6/pdf-chat-rag",
-#         "X-Title": "PDF Chat RAG Space"
-#     }
-# )
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
 
-# ─── Embedding Model ───────────────────────────────────────────────────────────
-model = SentenceTransformer("all-MiniLM-L6-v2") #device="cpu"
+# Load embedding model
+model = SentenceTransformer("all-MiniLM-L6-v2")
+# import requests
+# try:
+#     res = requests.get("https://openrouter.ai")
+#     st.success(f"🌐 Internet: {res.status_code} - {res.reason}")
+# except Exception as e:
+#     st.error(f"❌ No internet access or DNS error: {e}")
 
-# ─── Streamlit Layout ──────────────────────────────────────────────────────────
+# # Streamlit UI
+# st.title("📄 Chat with Your PDF (RAG + Pinecone style)")
+# st.markdown(
+#     """<h1 style='text-align: center;'>📄 Chat with Your PDF<br> (RAG + Pinecone style)</h1>""",unsafe_allow_html=True
+# )
+
+# st.markdown(
+#     """
+#     <div style="text-align: center; padding: 1rem 0;">
+#         <h1 style="font-size: 2.5rem;">📄 Chat with Your PDF</h1>
+#         <h3 style="color: gray; font-weight: normal;">(RAG + Pinecone style)</h3>
+#     </div>
+#     """,
+#     unsafe_allow_html=True
+# )
+
 st.markdown(
     """
     <h1 style="
@@ -54,82 +59,98 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# st.success(f"")
+# <h3 style="text-align:center; color: white; font-weight: normal;">
+#         (RAG + Pinecone style)
+#     </h3>
 
-uploaded = st.file_uploader("Upload a PDF", type="pdf")
-if not uploaded:
-    st.stop()
 
-# ─── PDF → Text → Chunks → FAISS Index ──────────────────────────────────────────
-# 1) Read PDF
-reader   = PdfReader(uploaded)
+st.markdown("""
+    <style>
+    div.stButton {
+        background: linear-gradient(to right, red, orange, orange, red);
+        color: white;
+        border: none;
+        padding: 0.6rem 1.2rem;
+        font-weight: bold;
+        border-radius: 12px;
+        transition: 0.2s;
+        margin-top: 10px;
+    }
+    div.stButton > button:hover {
+        transform: scale(1.03);
+        cursor: pointer;
+    }
+    </style>
+""", unsafe_allow_html=True)
 
-# 2) Extract raw text
-raw_text = "\n".join(p.extract_text() or "" for p in reader.pages)
-if not raw_text.strip():
-    st.warning("❗ No extractable text found in this PDF.")
-    st.stop()
 
-# 3) Chunking
-def chunk_text(txt, size=300):
-    words = txt.split()
-    return [" ".join(words[i:i+size]) for i in range(0, len(words), size)]
+uploaded_file = st.file_uploader("Upload a PDF", type="pdf")
 
-# enable the text_input now that parsing succeeded
-# st.experimental_rerun()  # re-run so that the input box becomes enabled on next render
+if uploaded_file:
+    reader = PdfReader(uploaded_file)
+    raw_text = "\n".join([page.extract_text() for page in reader.pages if page.extract_text()])
 
-chunks     = chunk_text(raw_text)
+    # Split into chunks
+    def chunk_text(text, chunk_size=300):
+        words = text.split()
+        return [" ".join(words[i:i+chunk_size]) for i in range(0, len(words), chunk_size)]
 
-# 4) Embed + FAISS index
-embeddings = model.encode(chunks).astype("float32")
-index      = faiss.IndexFlatL2(embeddings.shape[1])
-index.add(embeddings)
+    chunks = chunk_text(raw_text)
+    embeddings = model.encode(chunks).astype("float32")
 
-# ─── Chat History ───────────────────────────────────────────────────────────────
-# 5) Chat history init
-if "chat_history" not in st.session_state:
-    st.session_state.chat_history = [
-        {"role": "system", "content": "You are a helpful assistant."}
-    ]
+    # Create FAISS index
+    index = faiss.IndexFlatL2(embeddings.shape[1])
+    index.add(embeddings)
 
-# ─── Retrieval + Generation ────────────────────────────────────────────────────
-# 7) Semantic search helper
-def semantic_retrieve(query, k=3):
-    q_vec = model.encode([query]).astype("float32")
-    _, I = index.search(q_vec, k)
-    return [chunks[i] for i in I[0]]
+    # Chat history
+    if "chat_history" not in st.session_state:
+        st.session_state.chat_history = [
+            {"role": "system", "content": "You are a helpful assistant."}
+        ]
 
-# 8) Build prompt + payload
-def generate_answer(question):
-    context = "\n".join(semantic_retrieve(question))
-    prompt  = (
-        "Use the context below to answer the question:\n\n"
-        f"Context:\n{context}\n\n"
-        f"Question: {question}\nAnswer:"
-    )
-    st.session_state.chat_history.append({"role": "user",    "content": prompt})
+    # Search top-k relevant chunks
+    def search_context(query, top_k=3):
+        query_vec = model.encode([query]).astype("float32")
+        _, I = index.search(query_vec, top_k)
+        return [chunks[i] for i in I[0]]
 
-    # 9) Call OpenRouter with requests so we can inspect raw response
-    response = client.chat.completions.create(
-        model="mistralai/mistral-7b-instruct",
-        messages=st.session_state.chat_history,
-        temperature=0.3
-    )
-    answer = response.choices[0].message.content
+    # Generate answer
+    def generate_answer(user_q):
+        context = "\n".join(search_context(user_q))
+        prompt = f"""Use the context below to answer the question:
 
-    # 11) Update chat history
-    st.session_state.chat_history.append({"role": "assistant", "content": answer})
-    return answer
+Context:
+{context}
 
-# ─── Interaction ───────────────────────────────────────────────────────────────
-# 6) UI input
-# show the text input always, but disable until we have chunks
-parsed = uploaded and raw_text.strip() != ""
+Question: {user_q}
+Answer:"""
+        st.session_state.chat_history.append({"role": "user", "content": prompt})
+        response = client.chat.completions.create(
+            model="mistralai/mistral-7b-instruct",
+            messages=st.session_state.chat_history,
+            temperature=0.3
+        )
+        reply = response.choices[0].message.content
+        st.session_state.chat_history.append({"role": "assistant", "content": reply})
+        return reply
+    
 
-with st.form(key="chat_form", clear_on_submit=True):
-    user_input = st.text_input("Ask a question about the PDF", disabled=not parsed)
-    submit = st.form_submit_button("📤 Send", use_container_width=True)
+        
+    with st.form(key="chat_form", clear_on_submit=True):
+        user_input = st.text_input("Ask a question about the PDF", disabled=not True)
+        submit = st.form_submit_button("📤 Send", use_container_width=True)
 
-if submit and user_input:
+    # Custom container with full CSS styling
+    # with st.container():
+    #     st.markdown('<div class="custom-box">', unsafe_allow_html=True)
+    #     user_input = st.text_input("Ask a question about the PDF")
+    #     submit = st.button("📤 Send", key="submit_button", use_container_width=True)
+    #     st.markdown('</div>', unsafe_allow_html=True)
+
+
+
+    if submit and user_input:
         with st.spinner("Thinking..."):
             answer = generate_answer(user_input)
             # Inject CSS for chat bubbles
@@ -151,3 +172,8 @@ if submit and user_input:
         # Show chat messages with left-right separation
         st.markdown(f'User: <div class="user-msg">{user_input}</div>', unsafe_allow_html=True)
         st.markdown(f'Bot: <div class="bot-msg">{answer}</div>', unsafe_allow_html=True)
+
+
+
+# echo 'export PATH=$PATH:~/Library/Python/3.9/bin' >> ~/.zshrc
+# source ~/.zshrc
