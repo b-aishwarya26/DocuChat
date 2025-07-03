@@ -124,8 +124,6 @@ We welcome contributions! Here's how you can help:
 
 Contributions, issues, and feature requests are welcome!
 
-If you'd like to contribute, please follow below: 
-
 🍴 Fork this repo -> Make your changes -> Test thoroughly -> 📩 Submit a pull request
 
 Please ensure your code follows best practices and includes helpful comments/documentation if needed.
