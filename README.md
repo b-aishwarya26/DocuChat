@@ -197,6 +197,58 @@ Also, feel free to open issues, request features, or contribute.
 
 ---
 
+````markdown
+---
+
+## 🤝 Contributing
+
+Contributions, issues, and feature requests are welcome!
+
+If you'd like to contribute:
+
+1. 🍴 Fork this repo
+2. 🔧 Create a new branch (`git checkout -b feature-name`)
+3. 💻 Make your changes
+4. ✅ Test thoroughly
+5. 📩 Submit a pull request
+
+Please ensure your code follows best practices and includes helpful comments/documentation if needed.
+
+---
+
+### 📜 Code Commit Style
+
+Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+
+- `feat:` new feature
+- `fix:` bug fix
+- `docs:` documentation update
+- `refactor:` code refactor
+- `style:` UI or formatting
+- `chore:` maintenance tasks
+
+Example:
+```bash
+git commit -m "feat: added multi-pdf upload support"
+```
+
+---
+
+### 🧪 Testing
+
+Make sure your code:
+
+* Doesn’t break the main app
+* Works on local Streamlit
+* Follows a consistent UI/UX style
+
+---
+
+### 🙏 Thank You
+
+Every contribution makes this project better. Whether it's a typo fix or a new feature — you're appreciated!
+
+
 
 ```
 
