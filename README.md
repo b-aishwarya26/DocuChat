@@ -75,16 +75,6 @@ OPENAI_API_KEY = "sk-..."
 
 ---
 
-## 🌐 Deploy to Streamlit Cloud
-
-1. Push your code to GitHub
-2. Go to [streamlit.io/cloud](https://streamlit.io/cloud)
-3. Create new app → Select `src/streamlit_app.py`
-4. Add your `OPENAI_API_KEY` in **Secrets**
-5. Click **Deploy** 🎉
-
----
-
 ## 💬 Example Prompts
 
 * *"Summarize the full document."*
