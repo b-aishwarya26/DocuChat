@@ -1,163 +1,221 @@
----
-title: Pdf Chat Rag
-emoji: 🚀
-colorFrom: blue
-colorTo: blue
-sdk: docker
-app_port: 8501
-tags:
-- streamlit
-pinned: false
-short_description: 🤖 PDF Chatbot with RAG + Pinecone + Mistral
-license: mit
----
+# 📄 PDF Chatbot — Minimal RAG App using Streamlit + FAISS + Mistral
 
-```markdown
-# 📄 Chat with Your PDF – AI Assistant (RAG + FAISS + Mistral)
+A clean, fast **PDF-based RAG chatbot** built with SentenceTransformers, FAISS vector search, and OpenAI’s Mistral-7B — all inside a beautiful Streamlit UI.
 
-Upload a PDF and ask questions about its content.
+> ✅ Built with: `Streamlit`, `FAISS`, `SentenceTransformers`, `OpenAI`, `PyPDF`, `Mistral 7B`
 
-
-This is a powerful PDF chatbot built using **Retrieval-Augmented Generation (RAG)** with **FAISS** for semantic search, **SentenceTransformers** for embeddings, and **Mistral AI** (Mistral model) for answering queries. The app is deployed using **Streamlit** on Hugging Face Spaces.
+![GitHub Repo stars](https://img.shields.io/github/stars/Rakshath66/Chat-With-Your-PDF?style=social)
+![GitHub forks](https://img.shields.io/github/forks/Rakshath66/Chat-With-Your-PDF?style=social)
+![MIT License](https://img.shields.io/github/license/Rakshath66/Chat-With-Your-PDF)
 
 ---
 
-## 🚀 Features
+## 📸 Preview
 
-- ✅ Upload any PDF
-- ✅ Semantic chunking + embedding
-- ✅ Instant answers via Mistral AI's LLMs
-- ✅ FAISS-based similarity search
-- ✅ Clean Streamlit UI
-- ✅ Hugging Face Spaces integration (Docker)
+![image](images/ui.png)
 
 ---
 
-## 🛠️ Tech Stack
+## 🧠 Features
 
-- `Streamlit` – UI framework
-- `SentenceTransformers` – For embedding PDF chunks
-- `FAISS` – Fast similarity search
-- `Mistral API` – LLMs (Mistral, etc.)
-- `pypdf` – PDF text extraction
-- `Docker` – Containerized deployment on Hugging Face
-
----
-
-## 📂 Directory Structure
-
-```
-
-pdf-chat-rag/
-│
-├── src/
-│   └── streamlit_app.py         # Main app code
-├── requirements.txt             # Python dependencies
-├── Dockerfile                   # For deployment to Hugging Face
-└── README.md
-
-````
+- 📄 Upload and chat with **PDFs**
+- 🔍 Finds relevant **chunks** using FAISS + embeddings
+- 💬 Ask any question in **natural language**
+- 🧬 Embeds text using `MiniLM-L6-v2`
+- 🧠 Answers via **OpenAI’s Mistral-7B**
+- 🎨 Custom chat bubble UI in Streamlit
 
 ---
 
-## 🔧 Local Setup
+## 🚀 Getting Started
+
+### 🔧 Prerequisites
+
+- Python 3.9+
+- Get your API key from [OpenAI](https://platform.openai.com/api-keys)
+
+---
+
+### 🖥️ Local Installation
 
 ```bash
-git clone https://huggingface.co/spaces/rakshath6/pdf-chat-rag
-cd pdf-chat-rag
+# 1. Clone this repo
+git clone https://github.com/rakshath66/chat-with-your-pdf.git
+cd chat-with-your-pdf
 
-# Optional: create a virtual environment
-python3 -m venv venv && source venv/bin/activate
+# 2. Create virtual environment
+python -m venv venv
+source venv/bin/activate  # or venv\Scripts\activate
 
+# 3. Install dependencies
 pip install -r requirements.txt
 
-# Add your Mistral API key
-echo "OPENROUTER_API_KEY=your-key-here" > .env
+# 4. Add your API key in .env
+echo "OPENAI_API_KEY=your_openai_key" >> .env
 
+# 5. Launch the app
 streamlit run src/streamlit_app.py
 ````
 
 ---
 
-## 🧠 How It Works
-
-1. PDF is uploaded → converted to raw text using `pypdf`
-2. Text is chunked (300 tokens) and embedded using SentenceTransformer (`all-MiniLM-L6-v2`)
-3. Chunks stored in a FAISS index
-4. User asks a question → semantically matched with top chunks
-5. Those chunks + user question are sent to Mistral API
-6. Response is displayed!
-
----
-
 ## 🔐 Environment Variables
 
-Place your Mistral AI API key in `.env`:
+Create a `.env` file (or set in Streamlit Secrets):
 
-```env
-OPENROUTER_API_KEY=your_key_here
+```
+OPENAI_API_KEY=your_openai_key
+```
+
+If you're using **Streamlit Cloud/ HuggingFace**, paste this into **Settings → Secrets**:
+
+```toml
+OPENAI_API_KEY = "sk-..."
 ```
 
 ---
 
-## 📦 Requirements
+## 🌐 Deploy to Streamlit Cloud
 
-`requirements.txt` includes:
+1. Push your code to GitHub
+2. Go to [streamlit.io/cloud](https://streamlit.io/cloud)
+3. Create new app → Select `src/streamlit_app.py`
+4. Add your `OPENAI_API_KEY` in **Secrets**
+5. Click **Deploy** 🎉
+
+---
+
+## 💬 Example Prompts
+
+* *"Summarize the full document."*
+* *"What is the main conclusion in page 3?"*
+* *"List all key entities mentioned."*
+* *"Who is the author and when was this written?"*
+
+---
+
+## 📁 Project Structure
 
 ```
-streamlit
-pypdf
-sentence-transformers
-faiss-cpu
-openai
-python-dotenv
+chat-with-your-pdf/
+├── .env
+├── requirements.txt
+├── src/
+│   └── streamlit_app.py
+└── images/
+    └── ui.png
 ```
 
 ---
 
-## 🐳 Deployment on Hugging Face Spaces (Docker)
+## 🤝 Contributing
 
-Ensure:
+We welcome contributions! Here's how you can help:
 
-* Your app is in `src/streamlit_app.py`
-* API key is added under **"Secrets"**
-* No hardcoded `.env` file in repo
+### ✅ To Contribute:
 
-The app will auto-rebuild when pushed via Git or manually restarted.
+1. Fork this repository
+2. Clone your fork:
+   `git clone https://github.com/Rakshath66/Chat-With-Your-PDF.git`
+3. Create a new branch:
+   `git checkout -b feature/my-feature`
+4. Make your changes and commit:
+   `git commit -m "Add: your message here"`
+5. Push to your branch:
+   `git push origin feature/my-feature`
+6. Open a Pull Request with a description of your changes
+
+🔍 Please write clean code, add docstrings if needed, and test your features!
 
 ---
 
-## 🙌 Acknowledgments
+## 📄 License
 
-* [Mistral](https://mistral.ai/)
-* [Hugging Face Spaces](https://huggingface.co/spaces)
-* [SentenceTransformers](https://www.sbert.net/)
-* [FAISS](https://github.com/facebookresearch/faiss)
+MIT © [Rakshath U Shetty](https://github.com/rakshath66)
 
-<!-- ---
+```text
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software... [rest of MIT license]
+```
 
-## 📸 Preview
+---
 
-![screenshot](https://your-screenshot-url.com) optional
+## ⭐ Star this project if you like it!
 
---- -->
+It helps others discover it, and motivates me to build more free AI tools.
+Also, feel free to open issues, request features, or contribute.
 
-## 📬 Contact
+---
 
-Created with ❤️ by [Rakshath U Shetty](https://github.com/rakshath6)
+### 🧑‍💻 Built by [Rakshath U Shetty](https://github.com/rakshath66)
 
-🔗 [Portfolio](https://rakshath66.github.io/portfolio/) / [LinkedIn](https://www.linkedin.com/in/rakshathushetty/) / [GitHub](https://github.com/rakshath6)
+* Open source forever
+* Designed for learning, research, and practical use
+* Reach out via issues or PRs — ideas welcome!
+
+---
+
+
+## 🛣️ Next Steps — Roadmap
+
+---
+
+### ✅ Phase 1: Basic RAG PDF Chatbot ✅ *(Done)*
+
+* ✅ Upload PDF
+* ✅ Chunk + embed with MiniLM
+* ✅ FAISS vector store
+* ✅ OpenAI + Mistral response
+
+---
+
+### 📁 Phase 2: Multi-PDF Support
+
+* 📚 Support multiple PDFs at once
+* 🔍 Search across all PDFs in vector DB
+* 🧩 Track source chunk in response
+
+---
+
+### 🧠 Phase 3: Chunk Highlight + Source Tracking
+
+* ✨ Show which PDF chunk was used
+* 🔎 Highlight sentence or paragraph
+* 📎 Add page numbers in answer
+
+---
+
+### 🧠 Phase 4: Simple Memory (Session-based)
+
+* 🧠 Let chatbot remember previous Q/A per PDF session
+* 🔁 Keep conversation thread for 1 session
+
+---
+
+### ⚙️ Phase 5: Backend API Support
+
+* 🔧 Wrap logic into `FastAPI` or `Flask`
+* 🔁 Expose `/ask` endpoint with PDF + query
+* 🛠️ Use as an **API for other frontends**
+
+---
+
+### 🌐 Phase 6: URL + Website Reader (optional)
+
+* 📰 Add `summarize_url` support
+* 🌍 Upload a link → extract → chat like PDF
+
+---
+
 
 ```
 
-Let me know if you'd like me to customize:
-- Your name / Hugging Face username
-- Add a GIF demo
-- Make it more startup-style or resume-portfolio style
+Let me know if you want:
+- `LICENSE` file (MIT version)
+- A matching `.env.example` file
+- `demo/screenshot.png` placeholder
+- `contributing.md` file
 
-Shall I save this to a file and commit it for you?
+All of this helps boost your open-source visibility!
 ```
 
-
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
