@@ -1,221 +1,84 @@
-# 📄 PDF Chatbot — Minimal RAG App using Streamlit + FAISS + Mistral
+# 📄 DocuChat – Chat with Your PDF using AI
 
-A clean, fast **PDF-based RAG chatbot** built with SentenceTransformers, FAISS vector search, and OpenAI’s Mistral-7B — all inside a beautiful Streamlit UI.
-
-> ✅ Built with: `Streamlit`, `FAISS`, `SentenceTransformers`, `OpenAI`, `PyPDF`, `Mistral 7B`
-
-![GitHub Repo stars](https://img.shields.io/github/stars/Rakshath66/Chat-With-Your-PDF?style=social)
-![GitHub forks](https://img.shields.io/github/forks/Rakshath66/Chat-With-Your-PDF?style=social)
-![MIT License](https://img.shields.io/github/license/Rakshath66/Chat-With-Your-PDF)
+DocuChat is an AI-powered PDF chatbot that allows you to upload any PDF and ask questions about it.  
+It uses **Semantic Search + FAISS + OpenAI/OpenRouter LLMs** to provide accurate and contextual answers sourced directly from your document.
 
 ---
 
-📄 Live Links
-- [HuggingFace Live](https://huggingface.co/spaces/rakshath6/pdf-chat-rag/)
-- [Streamlit Live](https://chat-with-your-own-pdf.streamlit.app/)
+## 🚀 Features
+
+✅ Upload any **PDF (text-based)**  
+✅ **Chunking + Embedding** using SentenceTransformers  
+✅ **Semantic search** using FAISS  
+✅ Streamlit-based **Chat UI**  
+✅ Uses **OpenRouter / OpenAI API** for responses
 
 ---
 
-## 🧠 Features
+## 🛠️ Tech Stack
 
-- 📄 Upload and chat with **PDFs**
-- 🔍 Finds relevant **chunks** using FAISS + embeddings
-- 💬 Ask any question in **natural language**
-- 🧬 Embeds text using `MiniLM-L6-v2`
-- 🧠 Answers via **OpenAI’s Mistral-7B**
-- 🎨 Custom chat bubble UI in Streamlit
-
----
-
-## 🚀 Getting Started
-
-### 🔧 Prerequisites
-
-- Python 3.9+
-- Get your API key from [OpenAI](https://platform.openai.com/api-keys)
+| Component            | Technology Used |
+|----------------------|------------------|
+| Frontend / UI        | Streamlit        |
+| Embedding Model      | all-MiniLM-L6-v2 (SentenceTransformers) |
+| Vector Store         | FAISS            |
+| LLM (Chat Responses) | OpenRouter / OpenAI |
+| PDF Parsing          | PyPDF            |
 
 ---
 
-### 🖥️ Local Installation
+## 📦 Installation
 
 ```bash
-# 1. Clone this repo
-git clone https://github.com/rakshath66/chat-with-your-pdf.git
-cd chat-with-your-pdf
+# Clone the repository
+git clone https://github.com/YOUR_USERNAME/DocuChat.git
+cd DocuChat
 
-# 2. Create virtual environment
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate
+venv\Scripts\activate  # On Windows
+source venv/bin/activate  # On Mac/Linux
 
-# 3. Install dependencies
+# Install dependencies
 pip install -r requirements.txt
 
-# 4. Add your API key in .env
-echo "OPENAI_API_KEY=your_openai_key" >> .env
+🔑 Setup Environment Variables
 
-# 5. Launch the app
-streamlit run src/streamlit_app.py
-````
+Create a .env file in the project root and add:
 
----
-
-## 🔐 Environment Variables
-
-Create a `.env` file (or set in Streamlit Secrets):
-
-```
 OPENAI_API_KEY=your_openai_key
-```
+OPENROUTER_API_KEY=your_openrouter_key
 
-If you're using **Streamlit Cloud/ HuggingFace**, paste this into **Settings → Secrets**:
-
-```toml
-OPENAI_API_KEY = "sk-..."
-```
-
----
-
-## 💬 Example Prompts
-
-* *"Summarize the full document."*
-* *"What is the main conclusion in page 3?"*
-* *"List all key entities mentioned."*
-* *"Who is the author and when was this written?"*
-
----
-
-## 📁 Project Structure
-
-```
-chat-with-your-pdf/
-├── .env
-├── requirements.txt
-├── src/
-│   └── streamlit_app.py
-└── images/
-    └── ui.png
-```
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Here's how you can help:
-
-### ✅ To Contribute:
-
-1. Fork this repository
-2. Clone your fork:
-   `git clone https://github.com/Rakshath66/Chat-With-Your-PDF.git`
-3. Create a new branch:
-   `git checkout -b feature/my-feature`
-4. Make your changes and commit:
-   `git commit -m "Add: your message here"`
-5. Push to your branch:
-   `git push origin feature/my-feature`
-6. Open a Pull Request with a description of your changes
-
-🔍 Please write clean code, add docstrings if needed, and test your features!
-
----
+▶️ Run the App
+streamlit run src/streamlit_app.py
 
 
-## 🤝 Contributing Issues
+Then open the local URL in your browser:
 
-Contributions, issues, and feature requests are welcome!
+http://localhost:8501
 
-🍴 Fork this repo -> Make your changes -> Test thoroughly -> 📩 Submit a pull request
+🧠 How It Works
 
-Please ensure your code follows best practices and includes helpful comments/documentation if needed.
+Extracts text from PDF
 
----
+Splits it into small chunks
 
-### 📜 Code Commit Style
+Embeds and stores them in FAISS vector index
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/):
+When you ask a question → retrieves the most relevant chunks
 
-- `feat:` new feature
-- `fix:` bug fix
-- `docs:` documentation update
-- `refactor:` code refactor
-- `style:` UI or formatting
-- `chore:` maintenance tasks
+Sends them to the LLM to generate an answer
 
-Example:
-```bash
-git commit -m "feat: added multi-pdf upload support"
-```
+🤝 Contributing
 
----
+Pull requests are welcome! Feel free to:
 
-### 🧪 Testing
+Add support for multiple PDFs
 
-Make sure your code:
+Use different models (like GPT-4, LLaMA, Mixtral)
 
-* Doesn’t break the main app
-* Works on local Streamlit
-* Follows a consistent UI/UX style
+Improve UI layout
 
----
+📜 License
 
-### 🙏 Thank You
-
-Every contribution makes this project better. Whether it's a typo fix or a new feature — you're appreciated!
-
----
-
-It helps others discover it, and motivates me to build more free AI tools.
-Also, feel free to open issues, request features, or contribute.
-
----
-
-## 🛣️ Next Steps — Roadmap
-
----
-
-### ✅ Phase 1: Basic RAG PDF Chatbot ✅ *(Done)*
-
-* ✅ Upload PDF
-* ✅ Chunk + embed with MiniLM
-* ✅ FAISS vector store
-* ✅ OpenAI + Mistral response
-
----
-
-### 📁 Phase 2: Multi-PDF Support
-
-* 📚 Support multiple PDFs at once
-* 🔍 Search across all PDFs in vector DB
-* 🧩 Track source chunk in response
-
----
-
-### 🧠 Phase 3: Chunk Highlight + Source Tracking
-
-* ✨ Show which PDF chunk was used
-* 🔎 Highlight sentence or paragraph
-* 📎 Add page numbers in answer
-
----
-
-### 🧠 Phase 4: Simple Memory (Session-based)
-
-* 🧠 Let chatbot remember previous Q/A per PDF session
-* 🔁 Keep conversation thread for 1 session
-
----
-
-### ⚙️ Phase 5: Backend API Support
-
-* 🔧 Wrap logic into `FastAPI` or `Flask`
-* 🔁 Expose `/ask` endpoint with PDF + query
-* 🛠️ Use as an **API for other frontends**
-
----
-
-### 🌐 Phase 6: URL + Website Reader (optional)
-
-* 📰 Add `summarize_url` support
-* 🌍 Upload a link → extract → chat like PDF
-
-```
+MIT License – Free to use and modify!
