@@ -15,11 +15,24 @@ import requests
     
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
-load_dotenv(dotenv_path=".env")
-api_key = os.getenv("OPENROUTER_API_KEY")
+# load_dotenv(dotenv_path=".env")
+# api_key = os.getenv("OPENAI_API_KEY")
+load_dotenv()
+api_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
+
+if not api_key:
+    raise ValueError(
+        "❌ No API key found! Set OPENROUTER_API_KEY (OpenRouter) or OPENAI_API_KEY in environment."
+    )
 
 # ✅ Set required env var
-os.environ["OPENAI_API_KEY"] = api_key
+# os.environ["OPENAI_API_KEY"] = api_key
+
+# Initialize OpenAI / OpenRouter client
+if os.getenv("OPENROUTER_API_KEY"):
+    client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=api_key)
+else:
+    client = OpenAI(api_key=api_key)
 
 # ✅ OpenRouter Client with headers for Hugging Face Spaces
 # client = OpenAI(
