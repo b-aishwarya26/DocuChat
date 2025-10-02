@@ -10,10 +10,6 @@ A clean, fast **PDF-based RAG chatbot** built with SentenceTransformers, FAISS v
 
 ---
 
-## 📸 Preview
-
-![image](images/ui.png)
-
 📄 Live Links
 - [HuggingFace Live](https://huggingface.co/spaces/rakshath6/pdf-chat-rag/)
 - [Streamlit Live](https://chat-with-your-own-pdf.streamlit.app/)
@@ -168,19 +164,6 @@ Every contribution makes this project better. Whether it's a typo fix or a new f
 
 ---
 
-## 📄 License
-
-MIT © [Rakshath U Shetty](https://github.com/rakshath66)
-
-```text
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software... [rest of MIT license]
-```
-
----
-
-## ⭐ Star this project if you like it!
-
 It helps others discover it, and motivates me to build more free AI tools.
 Also, feel free to open issues, request features, or contribute.
 
@@ -235,24 +218,4 @@ Also, feel free to open issues, request features, or contribute.
 * 📰 Add `summarize_url` support
 * 🌍 Upload a link → extract → chat like PDF
 
----
-
-### 🧑‍💻 Built by [Rakshath U Shetty](https://github.com/rakshath66)
-
-* Open source forever
-* Designed for learning, research, and practical use
-* Reach out via issues or PRs — ideas welcome!
-
----
-
 ```
-
-Let me know if you want:
-- `LICENSE` file (MIT version)
-- A matching `.env.example` file
-- `demo/screenshot.png` placeholder
-- `contributing.md` file
-
-All of this helps boost your open-source visibility!
-```
-
